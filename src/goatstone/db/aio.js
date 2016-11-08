@@ -1,6 +1,6 @@
 /* goatstone.db.AIO  Database Analog Input Output */
 var sqlite3 = require('sqlite3').verbose();
-
+var Promise = require("bluebird");
 function AIO(){
     this.dbName = ':aio:'
     this.db = new sqlite3.Database(this.dbName)
@@ -24,20 +24,55 @@ AIO.prototype.close = function(){
 AIO.prototype.UTC_ISO_String = function(){
     return new Date(new Date().toUTCString()).toISOString()
 }
+AIO.prototype.getAll = function(){
+    this.db.all("SELECT * FROM sound order by timestamp desc limit 10", function(e, r){
+        //console.log('sound:::', r)
+    })
+}
 AIO.prototype.insertLight = function(level){
     this.db.run("INSERT INTO light(value, timestamp) VALUES (" + level + ", '" + this.UTC_ISO_String() + "')")
 }
 AIO.prototype.getLight = function(cb){
-    this.db.all("SELECT * FROM light order by timestamp desc limit 10", function(e, r){
-        console.log('r', r)
-        cb(r)
-    })
+    var statement = "SELECT * FROM light order by timestamp desc limit 10"
+    return new Promise(function(resolve, reject) {
+        this.db.all(statement, function(err, r){
+            if (err) {
+                reject(err)
+            } else {
+                resolve(r)
+            }
+        });
+    }.bind(this))
 }
 AIO.prototype.insertSound = function(level){
     this.db.run("INSERT INTO sound(value, timestamp) VALUES (" + level + ", '" + this.UTC_ISO_String() + "')")
 }
+AIO.prototype.getSound = function(cb){
+    var statement = "SELECT * FROM sound order by timestamp desc limit 10"
+    return new Promise(function(resolve, reject) {
+        this.db.all(statement, function(err, r){
+            if (err) {
+                reject(err)
+            } else {
+                resolve(r)
+            }
+        });
+    }.bind(this))
+}
 AIO.prototype.insertTemperature = function(level){
     this.db.run("INSERT INTO temperature(value, timestamp) VALUES (" + level + ", '" + this.UTC_ISO_String() + "')")
+}
+AIO.prototype.getTemperature = function(cb){
+    var statement = "SELECT * FROM temperature order by timestamp desc limit 10"
+    return new Promise(function(resolve, reject) {
+        this.db.all(statement, function(err, r){
+            if (err) {
+                reject(err)
+            } else {
+                resolve(r)
+            }
+        });
+    }.bind(this))
 }
 
 module.exports = AIO

@@ -1,25 +1,38 @@
 var https = require('https')
-var config = require('./config')
 
-function callM2X(lightLevels){
-    var pack = {"values":{
+function M2X(){
+    this.packet = {}
+    this.config = require('./config')
+}
+M2X.prototype.postLight = function(lightLevels){
+    this.packet = {"values":{
         "light": lightLevels
     }}
-    var jsonP = JSON.stringify(pack)
-    var req = https.request(config, function(res) {
-        console.log('STATUS: ${res.statusCode}', res.statusCode );
+    this.post()
+}
+M2X.prototype.postAll = function(light, sound, temperature){
+    this.packet = {"values":{
+        "light": light,
+        "sound": sound,
+        "temperature": temperature
+    }}
+    this.post()
+}
+M2X.prototype.post = function(){
+    var req = https.request(this.config, function(res) {
         res.setEncoding('utf8');
         res.on('data', function(chunk) {
-            console.log('BODY: ${chunk}`', chunk);
+            console.log('BODY:`', chunk);
         });
         res.on('end', function() {
-            console.log('No more data in response.')
+            //console.log('No more data in response.')
         })
     })
     req.on('error', function(e) {
-        console.log('problem}', e);
+        console.log('problem', e);
     });
-    req.write(jsonP)
+    req.write(JSON.stringify(this.packet))
     req.end()
 }
-module.exports = callM2X
+
+module.exports = M2X

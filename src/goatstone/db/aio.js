@@ -6,7 +6,7 @@ function AIO(){
     this.db = new sqlite3.Database(this.dbName)
 }
 AIO.prototype.create = function(){
-    //this.db.run("CREATE TABLE light (value smallint, timestamp TEXT)")
+    this.db.run("CREATE TABLE light (value smallint, timestamp TEXT)")
     this.db.run("CREATE TABLE sound (value smallint, timestamp TEXT)")
     this.db.run("CREATE TABLE temperature (value smallint, timestamp TEXT)")
 }

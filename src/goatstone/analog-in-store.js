@@ -10,23 +10,23 @@ var aioDB, m2x, light ,temp, sound, storeSensorDataInterval,
 
 aioDB = new AIO_DB()
 m2x = new M2X()
-light = new mraa.Aio( 1 )
-temp = new mraa.Aio( 2 )
-sound = new mraa.Aio( 3 )
+light = new mraa.Aio( 2 )
+temp = new mraa.Aio( 0 )
+sound = new mraa.Aio( 1 )
 storeSensorDataInterval = 1000
-tasks = [
-    aioDB.getLight().then(function(x){
-        lightData = x
-    }),
-    aioDB.getSound().then(function(x){
-        soundData = x
-    }),
-    aioDB.getTemperature().then(function(x){
-        temperatureData = x
-    })
-]
 Rx.Observable.interval(5000)
     .subscribe(function () {
+        tasks = [
+            aioDB.getLight().then(function(x){
+                lightData = x
+            }),
+            aioDB.getSound().then(function(x){
+                soundData = x
+            }),
+            aioDB.getTemperature().then(function(x){
+                temperatureData = x
+            })
+        ]
         Promise.all(tasks).then(function(x) {
             m2x.postAll(lightData, soundData, temperatureData)
         });

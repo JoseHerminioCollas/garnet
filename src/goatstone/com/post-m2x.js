@@ -25,7 +25,6 @@ M2X.prototype.post = function(){
             console.log('BODY:`', chunk);
         });
         res.on('end', function() {
-            //console.log('No more data in response.')
         })
     })
     req.on('error', function(e) {

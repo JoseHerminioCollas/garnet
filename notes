@@ -1,0 +1,52 @@
+Garnet
+
+An attempt to create a protoype/starter application device combination for an Internet of Things device.
+This device should take readings from ananlog sensors and record them remotely.
+This device should be able to offer a form of controling it.
+The user of the device should be able to get information about the device remotely
+Create a protoype board and application that can be used to configure proof of concept designs for other boards.
+
+In many ways this is just a computer that is set up in a certain way.
+I am using the Intel Edison board because I received it, free of charge at a hackathon.
+Data from the analog inputs is stored in a database. Values from this database are retreived then sent to a remote storage system.
+
+
+Some of The Main Pieces
+
+Linux, Ubilinux, Node, JavaScript,
+mraa, sqlite3,
+pm2 maintain long running processes
+promises, ReactiveX, React
+
+goatstone/board
+goatstone/com
+goatstone/db
+
+
+Development
+
+Develop on a regular laptop the IOT application, then transfer the application to an IOT device with minimal effort.
+
+
+The Current Setup:
+
+Edison chip, Arduino board, 2 bread boards, power banks
+
+
+Server
+
+The IOT device serves up a web site that will display information about the device or what it is monitoring.
+This website will offer controls that will enable change of the componets connected to its bread boards.
+
+$tar xvfz sqlite-autoconf-3071502.tar.gz
+$cd sqlite-autoconf-3071502
+$./configure --prefix=/usr/local
+$make
+$make install
+
+sudo pm2 start index.js
+sudo pm2 startup
+sudo pm2 save
+
+
+goat@rhino:~/projects/garnet$ ln -s /home/goat/projects/garnet/src/goatstone /home/goat/projects/garnet/node_modules/goatstone

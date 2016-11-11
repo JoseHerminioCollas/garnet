@@ -3,7 +3,7 @@ var Rx = require('rx')
 var mraa = require('./board/mock/mraa')
 var Promise = require("bluebird");
 var AIO_DB = require('./db/aio')
-var M2X = require('./com/post-m2x')
+var M2X = require('goatstone/com/m2x')
 
 var aioDB, m2x, light ,temp, sound, storeSensorDataInterval,
     lightData, soundData, temperatureData, tasks
@@ -29,6 +29,9 @@ Rx.Observable.interval(5000)
         ]
         Promise.all(tasks).then(function(x) {
             m2x.postAll(lightData, soundData, temperatureData)
+            .then(function(x){
+                    console.log('post', x)
+                })
         });
     })
 Rx.Observable.interval(storeSensorDataInterval)

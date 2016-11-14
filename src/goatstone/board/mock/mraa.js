@@ -1,4 +1,3 @@
-"use strict";
 
 var mraa = {
     Aio: function(pinNumber){

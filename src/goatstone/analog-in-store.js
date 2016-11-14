@@ -1,4 +1,3 @@
-'use strict'
 var Rx = require('rx')
 var mraa = require('./board/mock/mraa')
 var Promise = require("bluebird");
@@ -27,7 +26,7 @@ Rx.Observable.interval(5000)
                 temperatureData = x
             })
         ]
-        Promise.all(tasks).then(function(x) {
+        Promise.all(tasks).then(function() {
             m2x.postAll(lightData, soundData, temperatureData)
             .then(function(x){
                     console.log('post', x)

@@ -26,13 +26,13 @@ AIO.prototype.UTC_ISO_String = function(){
 }
 AIO.prototype.getAll = function(){
     this.db.all("SELECT * FROM sound order by timestamp desc limit 10", function(e, r){
-        //console.log('sound:::', r)
+        console.log('sound:::', r)
     })
 }
 AIO.prototype.insertLight = function(level){
     this.db.run("INSERT INTO light(value, timestamp) VALUES (" + level + ", '" + this.UTC_ISO_String() + "')")
 }
-AIO.prototype.getLight = function(cb){
+AIO.prototype.getLight = function(){
     var statement = "SELECT * FROM light order by timestamp desc limit 10"
     return new Promise(function(resolve, reject) {
         this.db.all(statement, function(err, r){
@@ -47,7 +47,7 @@ AIO.prototype.getLight = function(cb){
 AIO.prototype.insertSound = function(level){
     this.db.run("INSERT INTO sound(value, timestamp) VALUES (" + level + ", '" + this.UTC_ISO_String() + "')")
 }
-AIO.prototype.getSound = function(cb){
+AIO.prototype.getSound = function(){
     var statement = "SELECT * FROM sound order by timestamp desc limit 10"
     return new Promise(function(resolve, reject) {
         this.db.all(statement, function(err, r){
@@ -62,7 +62,7 @@ AIO.prototype.getSound = function(cb){
 AIO.prototype.insertTemperature = function(level){
     this.db.run("INSERT INTO temperature(value, timestamp) VALUES (" + level + ", '" + this.UTC_ISO_String() + "')")
 }
-AIO.prototype.getTemperature = function(cb){
+AIO.prototype.getTemperature = function(){
     var statement = "SELECT * FROM temperature order by timestamp desc limit 10"
     return new Promise(function(resolve, reject) {
         this.db.all(statement, function(err, r){

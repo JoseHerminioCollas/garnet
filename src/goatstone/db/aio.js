@@ -1,10 +1,10 @@
 /* goatstone.db.AIO  Database Analog Input Output */
-var sqlite3 = require('sqlite3').verbose();
 var Promise = require("bluebird");
-function AIO(){
-    this.dbName = ':aio:'
-    this.db = new sqlite3.Database(this.dbName)
+function AIO(db){// TODO consider passing the db instance
+    //this.dbName = ':aio:'
+    this.db = db
 }
+AIO.dbName = ':aio:'
 AIO.prototype.create = function(){
     this.db.run("CREATE TABLE light (value smallint, timestamp TEXT)")
     this.db.run("CREATE TABLE sound (value smallint, timestamp TEXT)")

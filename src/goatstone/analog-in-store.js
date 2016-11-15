@@ -3,11 +3,12 @@ var mraa = require('./board/mock/mraa')
 var Promise = require("bluebird");
 var AIO_DB = require('./db/aio')
 var M2X = require('goatstone/com/m2x')
+var sqlite3 = require('sqlite3').verbose();
 
 var aioDB, m2x, light ,temp, sound, storeSensorDataInterval,
     lightData, soundData, temperatureData, tasks
 
-aioDB = new AIO_DB()
+aioDB = new AIO_DB(new sqlite3.Database(AIO_DB.dbName))
 m2x = new M2X()
 light = new mraa.Aio( 2 )
 temp = new mraa.Aio( 0 )
